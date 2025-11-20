@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Share } from "@/components/share";
-import { url } from "@/lib/metadata";
+import { url, title } from "@/lib/metadata";
 
 const GRID_SIZE = 4;
 const TILE_VALUES = [2, 4];
@@ -41,7 +41,7 @@ export function Game2048() {
     if (gameOver) return;
     let moved = false;
     let newGrid = cloneGrid(grid);
-    const combine = (a: number, b: number) => (a === b && a !== 0 ? a + b : a);
+    // const combine = (a: number, b: number) => (a === b && a !== 0 ? a + b : a);
 
     const slide = (line: number[]) => {
       const filtered = line.filter(v => v !== 0);
@@ -107,7 +107,7 @@ export function Game2048() {
       if (newGrid.flat().includes(2048)) setGameWon(true);
       if (!newGrid.flat().some(v => v === 0) && !hasMoves(newGrid)) setGameOver(true);
     }
-  }, [grid, gameOver]);
+  }, [grid, gameOver, addRandomTile]);
 
   const hasMoves = (g: number[][]) => {
     for (let r = 0; r < GRID_SIZE; r++) {
@@ -123,7 +123,7 @@ export function Game2048() {
   useEffect(() => {
     addRandomTile();
     addRandomTile();
-  }, []);
+  }, [addRandomTile]);
 
   const handleKey = useCallback((e: KeyboardEvent) => {
     switch (e.key) {
